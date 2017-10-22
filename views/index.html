@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>首页显示</title>
+	<link rel="icon" href="/public/images/favicon.ico" type="image/x-icon" />
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="stylesheets/css.css">
+	<script src="javascripts/cmd.js"></script>
+	<script src="javascripts/module/common.js"></script>
+</head>
+<body>
+	<div class="container">
+		<ul class="nav nav-tabs">
+		  <li role="presentation" class="active"><a href="#">主页</a></li>
+		  <li role="presentation"><a href="#">新闻</a></li>
+		  <li role="presentation"><a href="#">栏目</a></li>
+		  <li role="presentation"><a href="#">教程</a></li>
+		  <li role="presentation"><a href="#">学缘网</a></li>
+		  <li role="presentation"><a href="#">edu</a></li>
+		  <li role="presentation"><a href="#">前端</a></li>
+		</ul>
+		<div class="jumbotron">
+			<h3>你好，这是一个很大的局部</h3>
+			<p class="text-center">
+				<img src="/public/images/chuan.jpg" class="img-thumbnail" alt="">
+			</p>
+			<p><a class="btn btn-primary btn-lg" href="/add" role="button">添加留言</a></p>
+		</div>		
+		<div class="resList"></div>
+	</div>
+</body>
+<script type="text/javascript">
+	var common = lh.use("common");
+	common.ajax({
+		method:'get',
+		url:'http://liuhengcss3.com/api/api.php',
+		success:function(data) {
+			var htmlstr = '';
+			var jsonArr = JSON.parse(data);
+			for(item in jsonArr) {
+				htmlstr += '<div class="panel panel-default"><div class="panel-heading"><b>'+jsonArr[item].username+'</b><span class="glyphicon glyphicon-time pull-right">'+jsonArr[item].addtimes+'</span></div>';
+				htmlstr += '<div class="panel-body">'+jsonArr[item].gbtxt+'</div></div>';
+			}
+			common.element('.resList').innerHTML = htmlstr;
+		}
+	});
+</script>
+</html>

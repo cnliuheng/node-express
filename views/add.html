@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>添加留言</title>
+	<link rel="stylesheet" type="text/css" href="/public/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/public/stylesheets/css.css">
+	<script src="/public/javascripts/cmd.js"></script>
+	<script src="/public/javascripts/module/common.js"></script>
+</head>
+<body>
+	<div class="container">
+		<ul class="nav nav-tabs">
+		  <li role="presentation" class="active"><a href="#">主页</a></li>
+		  <li role="presentation"><a href="#">新闻</a></li>
+		  <li role="presentation"><a href="#">栏目</a></li>
+		  <li role="presentation"><a href="#">教程</a></li>
+		  <li role="presentation"><a href="#">学缘网</a></li>
+		  <li role="presentation"><a href="#">edu</a></li>
+		  <li role="presentation"><a href="#">前端</a></li>
+		</ul>
+		<div class="panel panel-default">
+			<div class="panel-heading">添加留言</div>
+			<div class="panel-body">
+				<form id="add">
+				  <div class="form-group">
+				    <label for="username">用户</label>
+				    <input type="text" class="form-control" id="username" name="username" placeholder="要输入用户名">
+				  </div>
+				  <div class="form-group">
+				    <label for="tid">选择要留言的人</label>
+				    <select class="form-control" name="tid">
+					  <option value="1">市委书记</option>
+					  <option value="2">市长</option>
+					  <option value="3">副市长</option>
+					  <option value="4">纪委书记</option>
+					  <option value="5">人大主任</option>
+					</select>
+				  </div>
+				  <div class="form-group">
+				    <label for="title">留言标题</label>
+				    <input type="text" class="form-control" id="title" name="title" placeholder="一句话概括留言的主题">
+				  </div>
+				  <div class="form-group">
+				    <label for="gbtxt">留言内容</label>
+				    <textarea class="form-control" id="gbtxt" name="gbtxt" rows="3" placeholder="请输入留言的内容"></textarea>
+				  </div>
+				  <button type="submit" class="btn btn-default">提交</button>
+				</form>
+			</div>
+		</div>
+		<div class="resList"></div>
+	</div>
+</body>
+<script type="text/javascript">
+	var common = lh.use("common");
+	common.id('add').onsubmit = function(){		
+		var data = common.serialize(this.id);
+		console.log(data);
+		common.ajax({
+			method:'get',
+			url:'http://liuhengcss3.com/api/insert.php',
+			data:{
+				'data':data
+			},
+			success:function(data) {
+				
+			}
+		});
+		return false;
+	}
+	// console.log('页面已经加载完成');
+	//获取指定form中的所有的<input>对象
+	
+</script>
+</html>
