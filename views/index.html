@@ -23,7 +23,7 @@
 		<div class="jumbotron">
 			<h3>你好，这是一个很大的局部</h3>
 			<p class="text-center">
-				<img src="/public/images/chuan.jpg" class="img-thumbnail" alt="">
+				<img src="images/chuan.jpg" class="img-thumbnail" alt="">
 			</p>
 			<p><a class="btn btn-primary btn-lg" href="/add" role="button">添加留言</a></p>
 		</div>		
@@ -35,9 +35,8 @@
 	common.ajax({
 		method:'get',
 		url:'http://liuhengcss3.com/api/api.php',
-		success:function(data) {
-			var htmlstr = '';
-			var jsonArr = JSON.parse(data);
+		success:function(jsonArr) {
+			var htmlstr = '';			
 			for(item in jsonArr) {
 				htmlstr += '<div class="panel panel-default"><div class="panel-heading"><b>'+jsonArr[item].username+'</b><span class="glyphicon glyphicon-time pull-right">'+jsonArr[item].addtimes+'</span></div>';
 				htmlstr += '<div class="panel-body">'+jsonArr[item].gbtxt+'</div></div>';

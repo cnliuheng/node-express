@@ -29,26 +29,38 @@ lh.define("common", [], function() {
          * @param {string}opt.url 发送请求的url
          * @param {boolean}opt.async 是否为异步请求，true为异步的，false为同步的
          * @param {object}opt.data 发送的参数，格式为对象类型
+         * @param {object}opt.fromData 发送的参数是否为表单序列化的数组,如果设置的话则data:fromdata 默认为fasle
          * @param {function}opt.success ajax发送并接收成功调用的回调函数
          */
         ajax:function(opt) {
             opt = opt || {};
-            opt.method = opt.method.toUpperCase() || 'POST';
+            opt.method = opt.method.toUpperCase() || 'GET';
             opt.url = opt.url || '';
             opt.async = opt.async || true;
+            opt.dataType = opt.dataType || 'json';
+            opt.fromSerialize = opt.fromSerialize || false;
             opt.data = opt.data || null;
             opt.success = opt.success || function () {};
             var xmlHttp = null;
             if (XMLHttpRequest) {
                 xmlHttp = new XMLHttpRequest();
-            }
-            else {
+            } else {
                 xmlHttp = new ActiveXObject('Microsoft.XMLHTTP');
-            }var params = [];
-            for (var key in opt.data){
-                params.push(key + '=' + opt.data[key]);
             }
-            var postData = params.join('&');
+            //空的待发送数组
+            var params = [];
+            var postData;
+            //根据数据判断
+            // common.js:49 username=111&tid=1&title=222&gbtxt=333
+            // 选择表单序列化,则进行元表单数据发送
+            if(opt.fromSerialize) {
+                postData = opt.data;
+            }else{
+                for (var key in opt.data){
+                    params.push(key + '=' + opt.data[key]);
+                }
+                postData = params;
+            }                                
             if (opt.method.toUpperCase() === 'POST') {
                 xmlHttp.open(opt.method, opt.url, opt.async);
                 xmlHttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8');
@@ -60,7 +72,10 @@ lh.define("common", [], function() {
             } 
             xmlHttp.onreadystatechange = function () {
                 if (xmlHttp.readyState == 4 && xmlHttp.status == 200) {
-                    opt.success(xmlHttp.responseText);
+                    var resData = xmlHttp.responseText;
+                    // var resData = eval("("+resData+")");
+                    var resData = JSON.parse(resData);
+                    opt.success(resData);
                 }
             };
         },

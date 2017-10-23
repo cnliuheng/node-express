@@ -3,10 +3,10 @@
 <head>
 	<meta charset="UTF-8">
 	<title>添加留言</title>
-	<link rel="stylesheet" type="text/css" href="/public/bootstrap/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="/public/stylesheets/css.css">
-	<script src="/public/javascripts/cmd.js"></script>
-	<script src="/public/javascripts/module/common.js"></script>
+	<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="stylesheets/css.css">
+	<script src="javascripts/cmd.js"></script>
+	<script src="javascripts/module/common.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -56,21 +56,25 @@
 	var common = lh.use("common");
 	common.id('add').onsubmit = function(){		
 		var data = common.serialize(this.id);
-		console.log(data);
+		var jsondata = {'name':'刘恒','age':'32','sex':'男'};
 		common.ajax({
-			method:'get',
+			method:'post',
 			url:'http://liuhengcss3.com/api/insert.php',
-			data:{
-				'data':data
-			},
-			success:function(data) {
-				
+			fromSerialize:true,
+			data:data,
+			success:function(rdata) {
+				if(rdata.code == "200") {
+					alert('添加成功,跳转去吧');
+				}
 			}
 		});
 		return false;
 	}
 	// console.log('页面已经加载完成');
 	//获取指定form中的所有的<input>对象
-	
+	// var str = "username=123123123&tid=1&title=123213123&gbtxt=123123123";
+	// console.log(str);
+	// var json = JSON.parse(str);
+	// console.log(json);
 </script>
 </html>
